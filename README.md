@@ -1,7 +1,6 @@
-<p align="center">
-<font size=50>__MetaMiner 1.0  Manual__</font>
-->Liu Cao, Alexey Gurevich, Hosein Mohimani<-
-</p>
+# MetaMiner 1.0  Manual
+
+Liu Cao, Alexey Gurevich, Hosein Mohimani
 	
 * [About MetaMiner](#sec_intro)
 * [Input and output](#sec_inout)
