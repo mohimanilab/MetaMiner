@@ -1,0 +1,37 @@
+MetaMiner: A Peptidogenomics Approach for the Discovery of Ribosomally
+Synthesized and Post-translationally Modified Peptides.
+
+Copyright (c) 2015-2019 Saint Petersburg State University, St. Petersburg, Russia
+Copyright (c) 2017-2019 Carnegie Mellon University, Pittsburgh, PA, USA
+Copyright (c) 2015-2017 University of California San Diego, La Jolla, CA, USA
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this software except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+-------------------------------------------------------------------------------
+
+Contact:
+    npdtools.support@cab.spbu.ru
+
+-------------------------------------------------------------------------------
+
+Reference:
+
+Liu Cao, Alexey Gurevich, Kelsey L Alexander, C. Benjamin Naman, Tiago Leao,
+Evgenia Glukhov, Nathan A Moss, Tal Luzzatto Knaan, Fernando Vargas, Robby Quinn,
+Amina Bouslimani, Louis-Felix Nothias, Nitin K Singh, John G Sanders, Rodolfo A S Benitez,
+Luke R Thompson, Md-Nafiz Hamid, James T Morton, Alla Mikheenko, Alexander Shlemov,
+Anton Korobeynikov, Iddo Friedberg, Rob Knight, Kasthuri Venkateswaran, William Gerwick,
+Lena Gerwick, Peter C. Dorrestein, Pavel A. Pevzner, Hosein Mohimani.
+MetaMiner: A Peptidogenomics Approach for the Discovery of Ribosomally
+Synthesized and Post-translationally Modified Peptides.
+Submitted, 2019
