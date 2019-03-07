@@ -1,7 +1,8 @@
-<font size=20>__MetaMiner 1.0  Manual__</font>
-
+<p align="center">
+<font size=50>__MetaMiner 1.0  Manual__</font>
 ->Liu Cao, Alexey Gurevich, Hosein Mohimani<-
-
+</p>
+	
 * [About MetaMiner](#sec_intro)
 * [Input and output](#sec_inout)
     * [Input file format](#sec_input)
@@ -65,7 +66,7 @@ The rest lines represent compound–spectrum matches which include information a
 
 MetaMiner pipeline is as follows:
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://github.com/mohimanilab/MetaMiner/blob/master/Figure1_combined_box.png "MetaMiner pipeline")
 
 Please refer the MetaMiner paper for details.
 
