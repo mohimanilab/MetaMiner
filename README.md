@@ -68,7 +68,7 @@ The rest lines represent compound–spectrum matches which include information a
 
 MetaMiner pipeline is as follows:
 
-![alt text](https://github.com/mohimanilab/MetaMiner/blob/master/Figure1_combined_box.png "MetaMiner pipeline")
+![alt text](https://github.com/mohimanilab/MetaMiner/blob/master/Figure1_combined_v3.png "MetaMiner pipeline")
 
 Please refer the MetaMiner paper for details.
 
