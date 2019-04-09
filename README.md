@@ -3,7 +3,6 @@
 written by *Liu Cao, Alexey Gurevich, Hosein Mohimani*
 
 ## Table of Contents
-    - [Table of Contents](#table-of-contents)
 - [About MetaMiner](#about-metaminer)
 - [Input and output](#input-and-output)
     - [Input files format](#input-files-format)
