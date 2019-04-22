@@ -3,24 +3,24 @@
 written by *Liu Cao, Alexey Gurevich, Hosein Mohimani*
 
 ## Table of Contents
-- [About MetaMiner](#about-metaminer)
-- [Input and output](#input-and-output)
-    - [Input files format](#input-files-format)
-    - [Output reports](#output-reports)
-- [Pipeline](#pipeline)
-- [Installation](#installation)
-    - [Download MetaMiner](#download-metaminer)
-    - [Download SPAdes binaries](#download-spades-binaries)
-    - [Download antiSMASH](#download-antismash)
-    - [Download BOA](#download-boa)
-- [How to run MetaMiner?](#how-to-run-metaminer)
-    - [Run MetaMiner with raw nucleotides sequence files (.fasta)](#run-metaminer-with-raw-nucleotides-sequence-files-fasta)
-    - [Run MetaMiner with raw reads files (.fastq)](#run-metaminer-with-raw-reads-files-fastq)
-    - [Run MetaMiner with antiSMASH output (.final.gbk)](#run-metaminer-with-antismash-output-finalgbk)
-    - [Run MetaMiner with BOA output (.txt)](#run-metaminer-with-boa-output-txt)
-    - [Important MetaMiner parameters](#important-metaminer-parameters)
-- [Citation](#citation)
-- [Feedback and bug reports](#feedback-and-bug-reports)
+* [About MetaMiner](#sec_intro)
+* [Input and output](#sec_inout)
+    * [Input file format](#sec_input)
+    * [Output reports](#sec_output)  
+* [Pipeline](#sec_pipeline)
+* [Installation](#sec_installation)
+    * [Download MetaMiner](#sec_install_metaminer)
+    * [Download SPAdes](#sec_install_spades)
+    * [Download antiSMASH](#sec_install_antismash)
+    * [Download BOA](#sec_install_boa)
+* [How to run MetaMiner](#sec_howto)
+    * [Run MetaMiner with raw nucleotides sequence files (.fasta)](#sec_howto_fasta)
+    * [Run MetaMiner with raw reads files (.fastq)](#sec_howto_fastq)
+    * [Run MetaMiner with antiSMASH results (.final.gbk)](#sec_howto_antismash)
+    * [Run MetaMiner with BOA results (.fasta)](#sec_howto_boa)
+    * [Important MetaMiner parameters](#sec_para)
+* [Citation](#sec_citation)
+* [Feedback and bug reports](#sec_feedback)
 
 <a name="sec_intro"></a>
 # About MetaMiner
@@ -34,42 +34,44 @@ MetaMiner is developed in collaboration of [Carnegie Mellon University](http://m
 
 MetaMiner takes paired metabolomic and genomic data as input, and output a report summaring all the RiPPs that MetaMiner detected. 
 
+<a name="sec_input"></a>
 ## Input files format
 For metabolomic data, MetaMiner works with liquid chromatography–tandem mass spectrometry data (LS-MS/MS). Spectra files must be centroided and in an open spectrum format (MGF, mzXML, mzML or mzData). MetaMiner natively supports MGF (Mascot Generic Format) and uses msconvert utility from the ProteoWizard package to convert spectra in other formats to MGF.
 
 For genomic data, MetaMiner uses either raw nucleotide sequences or specific genome mining tools' output:
 
 * raw nucleotide sequences `.fasta` format (a high-quality reference or a draft assembly) 
-* [antiSMASH](https://antismash.secondarymetabolites.org/#!/start)'s output `.final.gbk` file
-* [BOA](https://github.com/mortonjt/Boa)'s output `.txt` file
+* *antiSMASH*'s `.final.gbk` file
+* *BOA*'s protein `.txt` file
 
 For users who only have DNA short read files (`.fastq`), you can first assemble reads with *SPAdes* or *metaSPAdes*. We provide a brief tutorial about how to assemble DNA short reads to nucleotide sequences using *SPAdes* in section [Run MetaMiner with raw read files](#sec_howto_fastq).
 
+<a name="sec_output"></a>
 ## Output reports
 
 All the detected RiPPs are reported in plain text tab-separated value files (`.tsv`). 
 Each file starts with a header line containing column descriptions. 
-The rest lines represent compound–spectrum matches which include information about both the corresponding mass spectrum and the compound. The columns in the report include:
--  `SpecFile` (filepath of the spectra file)
--  `Scan` (scan number of the identified spectrum inside the spectra file)
--  `SpectrumMass` (mass of the spectrum in Daltons)
--  `Retention` (retention time of the spectrum in seconds)
--  `Charge` (charge of the spectrum)
+The rest lines represent compound–spectrum matches which include information about both the corresponding mass spectrum and the compound. The columns in the report include:  
+-  `SpecFile` (filepath of the spectra file)  
+-  `Scan` (scan number of the identified spectrum inside the spectra file)  
+-  `SpectrumMass` (mass of the spectrum in Daltons)  
+-  `Retention` (retention time of the spectrum in seconds)  
+-  `Charge` (charge of the spectrum)  
 -  `Score` (score of the compound–spectrum match)
--  `P-Value` (statistical significance of the compound–spectrum match)
--  `FDR` (estimated False Discovery Rate at the corresponding P-Value level)
--  `PeptideMass` (mass of the compound in Daltons)
--  `SeqFile` (filepath of the genome sequence file)
--  `Class` (class of the identified RiPP compound)
--  `FragmentSeq` (raw initial sequence of the identified compound)
--  `ModifiedSeq` (the sequence of the identified compound with all applied modifications) 
+-  `P-Value` (statistical significance of the compound–spectrum match)  
+-  `FDR` (estimated False Discovery Rate at the corresponding P-Value level)  
+-  `PeptideMass` (mass of the compound in Daltons)  
+-  `SeqFile` (filepath of the genome sequence file)  
+-  `Class` (class of the identified RiPP compound)  
+-  `FragmentSeq` (raw initial sequence of the identified compound)  
+-  `ModifiedSeq` (the sequence of the identified compound with all applied modifications)  
 
 <a name="sec_pipeline"></a>
 # Pipeline
 
 MetaMiner pipeline is as follows:
 
-![alt text](https://github.com/mohimanilab/MetaMiner/blob/master/Figure1_combined_v6.png "MetaMiner pipeline")
+![alt text](README_fig.png "MetaMiner pipeline")
 
 Starting from the genome assemblies, MetaMiner (i) identifies putative BGCs and the corresponding precursor peptides, (ii) constructs putative RiPP structure databases (iii) matches tandem mass spectra against the constructed post-translationally modified RiPPs structure database using Dereplicator (Mohimani *et al.*, 2017), and (iv) enlarges the set of described RiPPs via spectral networking (Bandeira *et al.*, 2007; Watrous *et al.*, 2012). 
 Please refer the [MetaMiner paper](#sec_citation) for more details.
@@ -84,44 +86,54 @@ If they are not installed, the propagation will be generated in a plain text for
 
 There is no need for compilation of MetaMiner sources. Users can directly download and run the binaries.
 
-<a name="sec_install_MetaMiner"></a>
+<a name="sec_install_metaminer"></a>
 ##  Download MetaMiner 
 
-Go to the directory in which you wish MetaMiner to be installed and run the following commands to download and extract the NPDtools package (includes MetaMiner). 
+Go to the directory in which you wish MetaMiner to be installed and run the following commands to download and extract the MetaMiner package. 
 
 For Linux users:
 
 ``` bash
-wget https://github.com/ablab/npdtools/releases/download/npdtools-2.4.0/NPDtools-2.4.0-Linux.tar.gz
-tar -xzf NPDtools-2.4.0-Linux.tar.gz
-cd NPDtools-2.4.0-Linux
+wget https://github.com/mohimanilab/MetaMiner/releases/download/metaminer-2.4.0/MetaMiner-2.4.0-Linux.tar.gz
+tar -xzf MetaMiner-2.4.0-Linux.tar.gz
+cd MetaMiner-2.4.0-Linux
 ```
 
 For macOS users:
+
 ``` bash
-curl -L https://github.com/ablab/npdtools/releases/download/npdtools-2.4.0/NPDtools-2.4.0-Darwin.tar.gz -o NPDtools-2.4.0-Darwin.tar.gz 
-tar -xzf NPDtools-2.4.0-Darwin.tar.gz
-cd NPDtools-2.4.0-Darwin
+curl -L https://github.com/mohimanilab/MetaMiner/releases/download/metaminer-2.4.0/MetaMiner-2.4.0-Darwin.tar.gz -o MetaMiner-2.4.0-Darwin.tar.gz  
+tar -xzf MetaMiner-2.4.0-Darwin.tar.gz 
+cd MetaMiner-2.4.0-Darwin
 ```
+
+In case of success, you should see the main executable script `metaminer.py`, 
+auxiliary script `boa2fasta.py` and few more auxiliary executables under `bin/` subdirectory.  
+We further refer to the binaries simply as `metaminer.py` and `boa2fasta.py` 
+(consider adding `<MetaMiner_installation_dir>/bin/` to the PATH variable).
+Sample test data used in this tutorial should be located in `share/npdtools/test_data/` 
+and also can be downloaded using the [direct link](https://github.com/mohimanilab/MetaMiner/releases/download/metaminer-2.4.0/test_data.tar.gz) and unpacked. 
+In either case, we further refer to it simply as `test_data`. 
 
 <a name="sec_install_spades"></a>
 ## Download SPAdes binaries
 
 SPAdes will help assembly DNA short reads (`.fastq` file) to nucleotide sequences. For users who have already had `.fasta` or `.final.gbk` file as input, there is no need to download SPAdes.
 
-For Linux users, to download SPAdes:
+For Linux users, to download SPAdes (version 3.13.0):
 
 ```bash
-wget http://cab.spbu.ru/files/release3.13.0/SPAdes-3.13.0-Linux.tar.gz
-tar -xzf SPAdes-3.13.0-Linux.tar.gz
-cd SPAdes-3.13.0-Linux/
+wget http://cab.spbu.ru/files/release3.13.0/SPAdes-3.13.0-Linux.tar.gz  
+tar -xzf SPAdes-3.13.0-Linux.tar.gz  
+cd SPAdes-3.13.0-Linux/  
 ```
 
 For macOS binaries:
+
 ```bash
-curl http://cab.spbu.ru/files/release3.13.0/SPAdes-3.13.0-Darwin.tar.gz -o SPAdes-3.13.0-Darwin.tar.gz
-tar -zxf SPAdes-3.13.0-Darwin.tar.gz
-cd SPAdes-3.13.0-Darwin/
+curl http://cab.spbu.ru/files/release3.13.0/SPAdes-3.13.0-Darwin.tar.gz -o SPAdes-3.13.0-Darwin.tar.gz  
+tar -zxf SPAdes-3.13.0-Darwin.tar.gz  
+cd SPAdes-3.13.0-Darwin/  
 ```
 
 <a name="sec_install_antismash"></a>
@@ -163,9 +175,11 @@ Then users can directly [download BOA](https://github.com/idoerg/BOA/archive/mas
 ## Run MetaMiner with raw nucleotides sequence files (.fasta)
 
 For users who have already obtained the assembled genome/metagenome, a sample run of MetaMiner may look like this:
+
 ```bash
 python metaminer.py test_data/msms/ -s test_data/fasta/ -o metaminer_outdir
 ```
+
 In this case, all spectra files in `test_data/msms/` will be searched against 
 all sequence files in `test_data/fasta/`. In this particular case, it is a search of `test_data/msms/AmfS.mgf` spectrum
 against `test_data/fasta/S.griseus_fragment.fasta` genome fragment. The search mode (considered RiPP class) is 'lantibiotic' (by default).
@@ -181,14 +195,19 @@ These sequences correspond to AmfS peptide, you may read more about it in [Ueda 
 <a name="sec_howto_fastq"></a>
 ## Run MetaMiner with raw reads files (.fastq)
 
-For users who have raw DNA short read files (`.fastq` or `.fastq.gz`), it is convinient to assemble them into longer nucleotide sequences (contigs or scaffolds) with *SPAdes* or *metaSPAdes*. An example of `SPAdes` run is as follows:
+For users who have raw DNA short read files (`.fastq` or `.fastq.gz`), 
+it is convenient to assemble them into longer nucleotide sequences (contigs or scaffolds) with *SPAdes* or *metaSPAdes*. 
+An example of `SPAdes` run is as follows:
 
 ```bash
 # assemble paired-end short reads using SPAdes
-python /path/to/SPAdes/bin/spades.py -1 SRR3309439_subset_R1.fastq.gz -2 SRR3309439_subset_R2.fastq.gz -o spades_outdir
+python /path/to/SPAdes/bin/spades.py -1 test_data/reads/SRR3309439_subset_R1.fastq.gz -2 test_data/reads/SRR3309439_subset_R2.fastq.gz -o spades_outdir
 ```
 
-where `SRR3309439_subset_R1.fastq.gz` and `SRR3309439_subset_R2.fastq.gz` are downsampled paired-end reads files from [streptomyces griseus ATCC 12648](https://www.ebi.ac.uk/ena/data/view/SRR3309439), and `spades_outdir` is the directory containing the genome assembly output. Users can use either `spades_outdir/contigs.fasta` or `spades_outdir/scaffolds.fasta` as input of MetaMiner:
+where `SRR3309439_subset_R1.fastq.gz` and `SRR3309439_subset_R2.fastq.gz` are paired-end reads file 
+(downsampled raw reads from [Streptomyces griseus ATCC 12648](https://www.ebi.ac.uk/ena/data/view/SRR3309439)), 
+and `spades_outdir` is the directory containing the genome assembly output. 
+Users can use either `spades_outdir/contigs.fasta` or `spades_outdir/scaffolds.fasta` as input of MetaMiner:
 
 ```bash
 # take contigs.fasta as input of MetaMiner
@@ -196,7 +215,7 @@ python metaminer.py test_data/msms/ -s spades_outdir/contigs.fasta -o metaminer_
 ```
 
 <a name="sec_howto_antismash"></a>
-## Run MetaMiner with antiSMASH output (.final.gbk)
+## Run MetaMiner with antiSMASH results (.final.gbk)
 For users who have obtained antiSMASH results, you can directly apply MetaMiner to the GenBank file (`.final.gbk`). An example is as follows:
 
 ```bash
@@ -204,16 +223,18 @@ For users who have obtained antiSMASH results, you can directly apply MetaMiner 
 python metaminer.py test_data/msms/ -s test_data/antismash/ --antismash -o metaminer_outdir
 ```
 
-where `--antismash` specifies that `metaminer.py` will only look for `.final.gbk` files in the sequence directory `test_data/antismash` indicated by `-s`. The `.final.gbk` file in the test data folder is generated from `contigs.fasta` by `antiSMASH`. While `MetaMiner` successfully detect AmfS using the `contigs.fasta` file, it fails with antiSMASH result as input.
+where `--antismash` specifies that `metaminer.py` will only look for `.final.gbk` files in the sequence directory `test_data/antismash` indicated by `-s`. 
+The `.final.gbk` file in the test data folder is generated from `contigs.fasta` by `antiSMASH`. 
+While `MetaMiner` successfully detect AmfS using the `contigs.fasta` file, it fails with antiSMASH result as input.
 
 <a name="sec_howto_boa"></a>
-## Run MetaMiner with BOA output (.txt)
+## Run MetaMiner with BOA results (.txt)
 
 For users who have obtained BOA results, you can apply MetaMiner to the gene annotation file (`.txt`), which contains a list of annotated genes with their amino acid sequences. An example is as follows:
 
 ```bash
-# extract peptide sequences from BOA result file test.annotated.txt
-python bin/boa2fasta.py test_data/boa/test.annotated.txt test_data/boa/
+# extract peptide sequences from BOA result file test.annotated.txt and save them in test.annotated.fasta
+python boa2fasta.py test_data/boa/test.annotated.txt test_data/boa/test.annotated.fasta
 # apply MetaMiner to the .fasta files, each of which contains a peptide sequence
 python metaminer.py test_data/msms/ -s test_data/boa/ --ripp -o metaminer_outdir
 ```
@@ -259,6 +280,16 @@ Here is a list of frequently used parameters of MetaMiner:
     'glycocin', 'lantibiotic', 'lap', 'lassopeptide', 'linaridin',
     'proteusin', 'cyanobactin', and 'methanobactin'. You can also specify 'all' to try all classes one by one.
     *The default value is 'lantibiotic'*.  
+    
+`--blind`                   
+    Enable search in a blind mode, i.e. search for new PTMs with arbitrary mass shifts. Could be very slow.
+    
+`--spec-network`  
+    Path to the Spectral Network output 
+    ([GNPS Data Analysis workflow](https://gnps.ucsd.edu/ProteoSAFe/index.jsp?params=%7B%22workflow%22:%22METABOLOMICS-SNETS-V2%22,%22library_on_server%22:%22d.speclibs;%22%7D) 
+    also known as Molecular Networking). If specified, MetaMiner will identify connected components related 
+    to the most significant RiPP identifications and report them in plain text and graphical formats 
+    (saved under `<outdir>/spec_nets/`).
 
 
 <a name="sec_citation"></a>
@@ -270,8 +301,7 @@ Submitted, *2019* (initial version of the paper is [available on bioRxiv](https:
 <a name="sec_feedback"></a>
 # Feedback and bug reports
 Your comments, bug reports, and suggestions are very welcomed. 
-They will help us to further improve NPDtools.
+They will help us to further improve MetaMiner and NPDtools.
 You can leave them at [our GitHub repository tracker](https://github.com/ablab/npdtools/issues) 
 or sent them via support e-mail: <npdtools.support@cab.spbu.ru>.
-
 
