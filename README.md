@@ -245,22 +245,41 @@ where `--ripp` specifies that `metaminer.py` will only look for protein sequence
 <a name="sec_howto_molnet"></a>
 ## Visualize Spectral (Molecular) Networks of identified RiPPs
 
-After identifying some RiPPs, users can further enlarge the set of RiPP identifications via spectral network and visualize the results. Spectral network can be easily run through GNPS. Detailed instructions can be found in the [GNPS documentation](https://ccms-ucsd.github.io/GNPSDocumentation/networking/). Below is a simple tutorial for using --spec-network option of MetaMiner to visualize the spectral network of identified RiPP. It is based on a few files from MSV000080102 dataset and an example RiPP 'DATITTVTVTSTSIWASTVSNHC'.
+After identifying some RiPPs, users can further enlarge the set of RiPP identifications 
+via spectral network and visualize the results. 
+Spectral network can be easily run through GNPS. 
+Detailed instructions can be found in the [GNPS documentation](https://ccms-ucsd.github.io/GNPSDocumentation/networking/). 
+Below is a simple tutorial for using `--spec-network` option of MetaMiner 
+to visualize the spectral network of identified RiPP. 
+It is based on a few files from [MSV000080102 dataset](https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=6f7998a85ede41cc8a9b81f43dfe2631&view=advanced_view) 
+and an example RiPP `DATITTVTVTSTSIWASTVSNHC` (available in `test_data/molnet/example_RiPP.fasta`).
 
-0. Download `C18p_5uL_NASA_Sample_BB2_01_25958.mzML`, `C18p_5uL_NASA_Sample_BB3_01_25959.mzML` and `C18p_5uL_NASA_Sample_BB4_01_25960.mzML` files from [MSV000080102](ftp://massive.ucsd.edu/MSV000080102/ccms_peak/mzXML/Samples/) in GNPS. The example RiPP can be found under the test data directory of MetaMiner `/test_data/molnet/example_RiPP.fasta`
+1. Download `C18p_5uL_NASA_Sample_BB2_01_25958.mzML`, 
+`C18p_5uL_NASA_Sample_BB3_01_25959.mzML` and 
+`C18p_5uL_NASA_Sample_BB4_01_25960.mzML` files from [MSV000080102](ftp://massive.ucsd.edu/MSV000080102/ccms_peak/mzXML/Samples/).  
 
-1. Run spectral networks on MSV000080102 or directly download the results from [GNPS](https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c69f2f5d09be43bea8587d88cefe997e) (e.g. click on "Download Clustered Spectra as MGF"). Unpack the ProteoSAFe-METABOLOMICS-SNETS-V2-c69f2f5d-download_clustered_spectra.zip archive somewhere.
+2. Run spectral networks on the downloaded spectra or 
+download their precomputed spectral network from [GNPS](https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c69f2f5d09be43bea8587d88cefe997e) (e.g. click on "Download Clustered Spectra as MGF"),
+or use the minimal subset of this spectral network output files available in `test_data/molnet/ProteoSAFe-METABOLOMICS-SNETS-V2-unpacked/`. 
+If using an archive downloaded from GNPS, please unpack it.
+We further assume that the unpacked directory is `test_data/molnet/ProteoSAFe-METABOLOMICS-SNETS-V2-unpacked`.
 
-2. Run MetaMiner as following:
-```bash
-python metaminer.py -o example_RiPP_molnet --ripp -s ./test_data/nolnet/example_RiPP.fasta C18p_5uL_NASA_Sample_BB2_01_25958.mzML C18p_5uL_NASA_Sample_BB3_01_25959.mzML C18p_5uL_NASA_Sample_BB4_01_25960.mzML --blind --spec-network METABOLOMICS-SNETS-V2-unpacked --reuse
-```
+3. Run MetaMiner as following (note use of `--blind` here for demonstration purposes):  
+    ```bash
+    python metaminer.py C18p_5uL_NASA_Sample_BB2_01_25958.mzML \
+                        C18p_5uL_NASA_Sample_BB3_01_25959.mzML \
+                        C18p_5uL_NASA_Sample_BB4_01_25960.mzML \
+    -s test_data/molnet/example_RiPP.fasta --ripp --blind \
+    --spec-network test_data/molnet/ProteoSAFe-METABOLOMICS-SNETS-V2-unpacked -o metaminer_outdir  
+   ```
 
-3. Check the results in `example_RiPP_molnet/spec_nets/`
+4. Check the results in `metaminer_outdir/spec_nets/`
 This folder should contain three files:
-* `propagations.pdf` (graphical report, each page corresponds to a connected component of a significant PSM)
-* `propagations_detailed.txt`  (detailed text report: for each significant PSM, lists all spectra from the same cluster and from clusters at distance 1 and 2)
-* `propagations_short.txt` (the same as above but lists only one representative per each cluster)
+  * `propagations.pdf` (graphical report, each page corresponds to a connected component of a significant PSM)
+  * `propagations_detailed.txt`  (detailed text report: for each significant PSM, lists all spectra from the same cluster and from clusters at distance 1 and 2)
+  * `propagations_short.txt` (the same as above but lists only one representative per each cluster)
+
+Note: the final reports for this particular example are available in `test_data/molnet/output_example/`.
 
 
 <a name="sec_para"></a>
